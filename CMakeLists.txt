@@ -19,6 +19,17 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        planetaddwindow.h planetaddwindow.cpp planetaddwindow.ui
+        attributeaddwindow.h attributeaddwindow.cpp attributeaddwindow.ui
+        RBTree.h RBTree.cpp
+        RBNode.h RBNode.cpp
+        ReferenceAttributes.h ReferenceAttributes.cpp
+        ReferencePlanets.h ReferencePlanets.cpp
+        Database.h Database.cpp
+        hash_table.h hash_table.cpp
+        List.h List.cpp
+        parsers.h parsers.cpp
+        utilities.h utilities.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -45,12 +56,24 @@ else()
 endif()
 
 # Добавляем самодельные структуры данных
-add_subdirectory("Code")
+#add_subdirectory("Code")
 
-target_link_libraries(CourseWorkSem4 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+#set(DATA_STRUCTURES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Code/Data Structures")
+#set(HT_DIR "${DATA_STRUCTURES_DIR}/Hash Table")
+#set(RB_TREE_DIR "${DATA_STRUCTURES_DIR}/RB Tree")
+#set(LIST_DIR "${DATA_STRUCTURES_DIR}/Single Linked List")
+
+#set(DATABASES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Code/Databases")
 
 # Линкуем GUI с самодельными СД
-target_link_libraries(CourseWorkSem4 PRIVATE DatabaseLib)
+#target_link_libraries(CourseWorkSem4 PUBLIC DatabaseLib)
+
+#include_directories(${HT_DIR}
+#        ${RB_TREE_DIR}
+#        ${LIST_DIR})
+#include_directories(${DATABASES_DIR})
+
+target_link_libraries(CourseWorkSem4 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
 set_target_properties(CourseWorkSem4 PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

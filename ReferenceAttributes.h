@@ -65,7 +65,8 @@ public:
 
     string to_string();
 
-private:
     RBTree<climate_node_data> DB;
+private:
+
 };
 

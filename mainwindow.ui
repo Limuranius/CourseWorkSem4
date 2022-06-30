@@ -472,7 +472,7 @@
               <item>
                <widget class="QPushButton" name="button_rem_planet">
                 <property name="enabled">
-                 <bool>true</bool>
+                 <bool>false</bool>
                 </property>
                 <property name="text">
                  <string>Удалить</string>
@@ -523,41 +523,6 @@
                <string>Запись</string>
               </property>
              </column>
-             <item>
-              <property name="text">
-               <string>Умеренный климат</string>
-              </property>
-              <item>
-               <property name="text">
-                <string>Есть море</string>
-               </property>
-               <item>
-                <property name="text">
-                 <string>Земля</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Магратея</string>
-                </property>
-               </item>
-              </item>
-             </item>
-             <item>
-              <property name="text">
-               <string>Пустынный климат</string>
-              </property>
-              <item>
-               <property name="text">
-                <string>Черви</string>
-               </property>
-               <item>
-                <property name="text">
-                 <string>Арракис</string>
-                </property>
-               </item>
-              </item>
-             </item>
             </widget>
            </item>
            <item>
@@ -578,6 +543,9 @@
               </item>
               <item>
                <widget class="QPushButton" name="button_rem_attr">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Удалить</string>
                 </property>

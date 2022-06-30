@@ -17,6 +17,9 @@ struct PlanetFullInfo {
 
 class Database {
 public:
+    ReferencePlanets planets;
+    ReferenceAttributes attributes;
+
     void read_planets_file(const string &file_path);
 
     void read_attributes_file(const string &file_path);
@@ -45,9 +48,10 @@ public:
 
     string attributes_to_string();
 
+    string search_to_string(double distance, int price, const string &climate, const string &attribute);
+
 private:
-    ReferencePlanets planets;
-    ReferenceAttributes attributes;
+
 };
 
 

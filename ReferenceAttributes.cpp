@@ -78,8 +78,8 @@ void ReferenceAttributes::remove(const string &planet_name, const string &climat
     attribute_node_data attr_data;
     attr_data.attribute = attr;
 
-    auto attr_tree = this->DB.find(clim_data)->val.attrs_tree;  // Получаем дерево признаков для данного климата
-    auto planets_list = attr_tree.find(attr_data)->val.planets_list;  // Получаем список планет для данного признака
+    auto &attr_tree = this->DB.find(clim_data)->val.attrs_tree;  // Получаем дерево признаков для данного климата
+    auto &planets_list = attr_tree.find(attr_data)->val.planets_list;  // Получаем список планет для данного признака
 
     // Удаляем снизу вверх. Сначала из списка планет, затем из дерева признаков, затем из дерева климатов
     // При этом проверяем, если структуры становятся пустыми, тогда их тоже можно удалить

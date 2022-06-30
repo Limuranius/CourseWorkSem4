@@ -75,3 +75,16 @@ string Database::planets_to_string() {
 string Database::attributes_to_string() {
     return this->attributes.to_string();
 }
+
+string Database::search_to_string(double distance, int price, const string &climate, const string &attribute) {
+    vector<PlanetFullInfo> search_result = this->search(distance, price, climate, attribute);
+    string result = "";
+    for (PlanetFullInfo info: search_result) {
+        result += info.planet_name + ":\n";
+        result += "\tРасстояние: " + std::to_string(info.distance) + "\n";
+        result += "\tЦена: " + std::to_string(info.price) + "\n";
+        result += "\tКлимат: " + info.climate + "\n";
+        result += "\tПризнак: " + info.attribute + "\n\n";
+    }
+    return result;
+}
