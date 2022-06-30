@@ -28,6 +28,18 @@ private slots:
 
     void on_action_errors_page_triggered();
 
+    void on_button_import_planets_path_clicked();
+
+    void on_button_import_attrs_path_clicked();
+
+    void on_button_export_planets_path_clicked();
+
+    void on_button_export_attrs_path_clicked();
+
+    void on_button_export_search_path_clicked();
+
+    void on_button_export_log_path_clicked();
+
 private:
     Ui::MainWindow *ui;
 

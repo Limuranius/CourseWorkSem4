@@ -52,3 +52,45 @@ void MainWindow::on_action_errors_page_triggered()
     ui->stackedWidget->setCurrentIndex(4);
 }
 
+
+void MainWindow::on_button_import_planets_path_clicked()
+{
+    QString path = this->ask_file_path_read();
+    ui->lineEdit_import_planets_path->setText(path);
+}
+
+
+void MainWindow::on_button_import_attrs_path_clicked()
+{
+    QString path = this->ask_file_path_read();
+    ui->lineEdit_import_attrs_path->setText(path);
+}
+
+
+void MainWindow::on_button_export_planets_path_clicked()
+{
+    QString path = this->ask_file_path_write();
+    ui->lineEdit_export_planets_path->setText(path);
+}
+
+
+void MainWindow::on_button_export_attrs_path_clicked()
+{
+    QString path = this->ask_file_path_write();
+    ui->lineEdit_export_attrs_path->setText(path);
+}
+
+
+void MainWindow::on_button_export_search_path_clicked()
+{
+    QString path = this->ask_file_path_write();
+    ui->lineEdit_export_search_path->setText(path);
+}
+
+
+void MainWindow::on_button_export_log_path_clicked()
+{
+    QString path = this->ask_file_path_write();
+    ui->lineEdit_export_log_path->setText(path);
+}
+
