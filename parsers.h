@@ -2,18 +2,7 @@
 
 #include <vector>
 #include <string>
-
-struct Planet {
-    std::string planet_name;
-    double distance;
-    int price;
-};
-
-struct Attribute {
-    std::string planet_name;
-    std::string climate;
-    std::string attribute;
-};
+#include "Structures.h"
 
 std::vector<std::string> split(const std::string& str, const std::string& delim);
 

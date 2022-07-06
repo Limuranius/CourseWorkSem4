@@ -45,8 +45,6 @@ private slots:
 
     void on_button_export_search_path_clicked();
 
-    void on_button_export_log_path_clicked();
-
     void on_button_add_planet_clicked();
 
     void on_button_add_attr_clicked();
@@ -71,10 +69,20 @@ private slots:
 
     void on_pushButton_2_clicked();
 
-    void on_button_export_log_clicked();
+    void on_button_import_default_databases_clicked();
+
+    void on_button_export_default_databases_clicked();
+
+    void on_button_export_default_search_clicked();
 
 private:
     Ui::MainWindow *ui;
+
+    std::string default_import_planets_path = "./planets.txt";
+    std::string default_import_attrs_path = "./attributes.txt";
+    std::string default_export_planets_path = "./planets.txt";
+    std::string default_export_attrs_path = "./attributes.txt";
+    std::string default_export_search_path = "./report.txt";
 
     Database database;
 

@@ -17,17 +17,21 @@ public:
 
     List();
 
+    ~List();
+
     void insert(T val);
 
     void remove(T val);
 
-    void display();
+    string to_string(string (*val_to_str)(T));
 
     bool isEmpty();
 
     bool has(T val);
 
     vector<T> to_vector();
+
+    int size();
 
 private:
 
@@ -39,6 +43,16 @@ private:
 template<typename T>
 List<T>::List() {
     head = nullptr;
+}
+
+template<typename T>
+List<T>::~List() {
+//    Node<T> *curr = this->head;
+//    while (curr != nullptr) {
+//        Node<T> *tmp = curr->next;
+//        delete curr;
+//        curr = tmp;
+//    }
 }
 
 template<typename T>
@@ -100,16 +114,6 @@ void List<T>::remove(T val) {
 }
 
 template<typename T>
-void List<T>::display() {
-    Node<T> *curr = this->head;
-    while (curr != nullptr) {
-        cout << curr->data << " ";
-        curr = curr->next;
-    }
-    cout << endl;
-}
-
-template<typename T>
 bool List<T>::has(T val) {
     return this->search(val) != nullptr;
 }
@@ -121,6 +125,20 @@ vector<T> List<T>::to_vector() {
     while (curr != nullptr) {
         result.push_back(curr->data);
         curr = curr->next;
+    }
+    return result;
+}
+
+template<typename T>
+int List<T>::size() {
+    return this->to_vector().size();
+}
+
+template<typename T>
+string List<T>::to_string(string (*val_to_str)(T)) {
+    string result = "";
+    for (T item: this->to_vector()) {
+        result += val_to_str(item) + " -> ";
     }
     return result;
 }

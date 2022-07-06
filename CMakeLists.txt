@@ -21,15 +21,6 @@ set(PROJECT_SOURCES
         mainwindow.ui
         planetaddwindow.h planetaddwindow.cpp planetaddwindow.ui
         attributeaddwindow.h attributeaddwindow.cpp attributeaddwindow.ui
-        RBTree.h RBTree.cpp
-        RBNode.h RBNode.cpp
-        ReferenceAttributes.h ReferenceAttributes.cpp
-        ReferencePlanets.h ReferencePlanets.cpp
-        Database.h Database.cpp
-        hash_table.h hash_table.cpp
-        List.h List.cpp
-        parsers.h parsers.cpp
-        utilities.h utilities.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -55,25 +46,34 @@ else()
     endif()
 endif()
 
-# Добавляем самодельные структуры данных
-#add_subdirectory("Code")
-
-#set(DATA_STRUCTURES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Code/Data Structures")
-#set(HT_DIR "${DATA_STRUCTURES_DIR}/Hash Table")
-#set(RB_TREE_DIR "${DATA_STRUCTURES_DIR}/RB Tree")
-#set(LIST_DIR "${DATA_STRUCTURES_DIR}/Single Linked List")
-
-#set(DATABASES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Code/Databases")
-
-# Линкуем GUI с самодельными СД
-#target_link_libraries(CourseWorkSem4 PUBLIC DatabaseLib)
-
-#include_directories(${HT_DIR}
-#        ${RB_TREE_DIR}
-#        ${LIST_DIR})
-#include_directories(${DATABASES_DIR})
-
 target_link_libraries(CourseWorkSem4 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+
+# Добавляю свои структуры данных
+add_library(ListLib List.cpp)
+add_library(HashTableLib HashTable.cpp)
+add_library(RBTreeLib RBTree.cpp RBNode.cpp)
+target_link_libraries(RBTreeLib ListLib)
+
+add_library(StructuresLib Structures.cpp)
+
+add_library(ParserLib Parsers.cpp)
+target_link_libraries(ParserLib StructuresLib)
+
+add_library(ToStringLib ToString.cpp)
+target_link_libraries(ToStringLib StructuresLib)
+add_library(ToIntLib ToInt.cpp)
+target_link_libraries(ToIntLib StructuresLib)
+
+add_library(PlanetsLib Planets.cpp)
+target_link_libraries(PlanetsLib HashTableLib RBTreeLib StructuresLib ParserLib ToStringLib ToIntLib)
+add_library(AttributesLib Attributes.cpp)
+target_link_libraries(AttributesLib HashTableLib RBTreeLib StructuresLib ParserLib ToStringLib ToIntLib)
+
+add_library(DatabaseLib Database.cpp)
+target_link_libraries(DatabaseLib PlanetsLib AttributesLib)
+
+target_link_libraries(CourseWorkSem4 PRIVATE DatabaseLib)
+
 
 set_target_properties(CourseWorkSem4 PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

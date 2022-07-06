@@ -11,6 +11,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->label_import_planets_default_path->setText(QString::fromStdString("Путь по умолчанию: " + this->default_import_planets_path));
+    ui->label_import_attrs_default_path->setText(QString::fromStdString("Путь по умолчанию: " + this->default_import_attrs_path));
+    ui->label_export_planets_default_path->setText(QString::fromStdString("Путь по умолчанию: " + this->default_export_planets_path));
+    ui->label_export_attrs_default_path->setText(QString::fromStdString("Путь по умолчанию: " + this->default_export_attrs_path));
+    ui->label_search_export_default_path->setText(QString::fromStdString("Путь по умолчанию: " + this->default_export_search_path));
 }
 
 MainWindow::~MainWindow()
@@ -93,13 +99,6 @@ void MainWindow::on_button_export_search_path_clicked()
 }
 
 
-void MainWindow::on_button_export_log_path_clicked()
-{
-    QString path = this->ask_file_path_write();
-    ui->lineEdit_export_log_path->setText(path);
-}
-
-
 void MainWindow::on_button_add_planet_clicked()
 {
     PlanetAddWindow win;
@@ -159,6 +158,13 @@ void MainWindow::on_button_import_databases_clicked()
     this->update();
 }
 
+void MainWindow::on_button_import_default_databases_clicked()
+{
+    this->database.read_planets_file(this->default_import_planets_path);
+    this->database.read_attributes_file(this->default_import_attrs_path);
+    this->update();
+}
+
 
 void MainWindow::on_button_export_databases_clicked()
 {
@@ -166,6 +172,12 @@ void MainWindow::on_button_export_databases_clicked()
     std::string attributes_export_path = ui->lineEdit_export_attrs_path->text().toStdString();
     this->database.save_planets_to_file(planets_export_path);
     this->database.save_attributes_to_file(attributes_export_path);
+}
+
+void MainWindow::on_button_export_default_databases_clicked()
+{
+    this->database.save_planets_to_file(this->default_export_planets_path);
+    this->database.save_attributes_to_file(this->default_export_attrs_path);
 }
 
 void MainWindow::update() {
@@ -279,6 +291,14 @@ void MainWindow::on_button_export_search_clicked()
     out.close();
 }
 
+void MainWindow::on_button_export_default_search_clicked()
+{
+    std::ofstream out(this->default_export_search_path);
+    out << ui->textEdit_search->toPlainText().toStdString();
+    out.close();
+}
+
+
 
 void MainWindow::on_pushButton_clicked()
 {
@@ -291,12 +311,4 @@ void MainWindow::on_pushButton_2_clicked()
     this->log(this->database.attributes_to_string());
 }
 
-
-void MainWindow::on_button_export_log_clicked()
-{
-    std::string path = ui->lineEdit_export_log_path->text().toStdString();
-    std::ofstream out(path);
-    out << ui->textEdit_log->toPlainText().toStdString();
-    out.close();
-}
 

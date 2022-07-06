@@ -3,102 +3,87 @@
 #include "RBNode.h"
 #include <vector>
 #include <iostream>
+#include <string>
 
-template<typename T>
+using namespace std;
+
+template<typename T1, typename T2>
+struct VisualNodeInfo {
+    T1 val;
+    List<T2> chain;
+    string color;  // R - красный, B - чёрный
+    string indent;  // Отступ в пробелах
+};
+
+template<typename T1, typename T2>
 class RBTree {
 public:
-    RBNode<T> *root;
+    RBNode<T1, T2> *root;
 
     RBTree();
 
-    explicit RBTree(std::vector<T> values);
-
     bool isEmpty();
 
-    void add(T val);
+    void add(T1 val, T2 val_2);
 
-    RBNode<T> *find(T val) const;
+    RBNode<T1, T2> *find(T1 val) const;
 
-    void remove(T val);
+    void remove(T1 val, T2 val_2);
 
     void clear();
 
-    T max() const;
-
-    T min() const;
-
-    void preOrderTraversal();
-
-    void postOrderTraversal();
-
     void inOrderTraversal();
 
-    void reverseInOrderTraversal();
+    bool has(T1 val, T2 val_2) const;
 
-    void print(RBNode<T> *q, long n);
+    vector<pair<T1, List<T2>>> to_vector();
 
-    bool has(T val) const;
+    string to_string(string (*val1_to_str)(T1), string (*val2_to_str)(T2));
 
-    std::vector<T> to_vector();
+    vector<RBNode<T1, T2>> get_nodes_lower(T1 value);
 
 private:
-    RBNode<T> *nullNode;
+    RBNode<T1, T2> *nullNode;
 
-    void rightRotate(RBNode<T> *x);
+    void rightRotate(RBNode<T1, T2> *x);
 
-    void leftRotate(RBNode<T> *x);
+    void leftRotate(RBNode<T1, T2> *x);
 
-    void balanceAdd(RBNode<T> *z);
+    void balanceAdd(RBNode<T1, T2> *z);
 
-    RBNode<T> *getMaxLeft(RBNode<T> *node) const;
+    RBNode<T1, T2> *getMaxLeft(RBNode<T1, T2> *node) const;
 
-    RBNode<T> *getMinRight(RBNode<T> *node) const;
+    RBNode<T1, T2> *getMinRight(RBNode<T1, T2> *node) const;
 
-    void transplant(RBNode<T> *u, RBNode<T> *v);
+    void transplant(RBNode<T1, T2> *u, RBNode<T1, T2> *v);
 
-    void balanceRemove(RBNode<T> *x);
+    void balanceRemove(RBNode<T1, T2> *x);
 
-    void preOrderTraversal(RBNode<T> *curr);
+    void inOrderTraversal(RBNode<T1, T2> *curr);
 
-    void postOrderTraversal(RBNode<T> *curr);
+    void to_vector_traversal(RBNode<T1, T2> *curr, vector<pair<T1, List<T2>>> &vect);
 
-    void inOrderTraversal(RBNode<T> *curr);
+    void
+    _to_string(string &result, RBNode<T1, T2> *curr, int indent, string (*val1_to_str)(T1), string (*val2_to_str)(T2));
 
-    void reverseInOrderTraversal(RBNode<T> *curr);
-
-    void to_vector_traversal(RBNode<T> *curr, std::vector<T>& vect);
+    void _get_nodes_lower(T1 target, RBNode<T1, T2> *curr, vector<RBNode<T1, T2>> &result);
 };
 
 
 /**
  * Конструктор пустого КЧ-дерева
  */
-template<typename T>
-RBTree<T>::RBTree() {
-    this->nullNode = new RBNode<T>();
+template<typename T1, typename T2>
+RBTree<T1, T2>::RBTree() {
+    this->nullNode = new RBNode<T1, T2>();
     this->root = nullNode;
 }
-
-
-/**
- * Конструктор КЧ-дерева с заданными элементами values
- * @param values  Массив элементов, которые последовательно добавятся в дерево
- */
-template<typename T>
-RBTree<T>::RBTree(std::vector<T> values) {
-    this->nullNode = new RBNode<T>();
-    this->root = nullNode;
-    for (T val: values) {
-        this->add(val);
-    }
-};
-
 
 /**
  * Возвращает true, если дерево пустое
  */
-template<typename T>
-bool RBTree<T>::isEmpty() {
+template<typename T1, typename T2>
+bool RBTree<T1, T2>::isEmpty() {
     return this->root == nullNode;
 }
 
@@ -107,9 +92,9 @@ bool RBTree<T>::isEmpty() {
  * Делает правый поворот вокруг узла x
  * @param x  Узел, вокруг которого поворачиваем
  */
-template<typename T>
-void RBTree<T>::rightRotate(RBNode<T> *x) {
-    RBNode<T> * y;
+template<typename T1, typename T2>
+void RBTree<T1, T2>::rightRotate(RBNode<T1, T2> *x) {
+    RBNode<T1, T2> *y;
 
     y = x->left;
     x->left = y->right;
@@ -119,11 +104,9 @@ void RBTree<T>::rightRotate(RBNode<T> *x) {
     y->parent = x->parent;
     if (x->isRoot()) {
         this->root = y;
-    }
-    else if (x == x->parent->right) {
+    } else if (x == x->parent->right) {
         x->parent->right = y;
-    }
-    else {
+    } else {
         x->parent->left = y;
     }
     y->right = x;
@@ -135,9 +118,9 @@ void RBTree<T>::rightRotate(RBNode<T> *x) {
  * Делает левый поворот вокруг узла x
  * @param x  Узел, вокруг которого поворачиваем
  */
-template<typename T>
-void RBTree<T>::leftRotate(RBNode<T> *x) {
-    RBNode<T> * y;
+template<typename T1, typename T2>
+void RBTree<T1, T2>::leftRotate(RBNode<T1, T2> *x) {
+    RBNode<T1, T2> *y;
 
     y = x->right;
     x->right = y->left;
@@ -147,11 +130,9 @@ void RBTree<T>::leftRotate(RBNode<T> *x) {
     y->parent = x->parent;
     if (x->isRoot()) {
         this->root = y;
-    }
-    else if (x == x->parent->left) {
+    } else if (x == x->parent->left) {
         x->parent->left = y;
-    }
-    else {
+    } else {
         x->parent->right = y;
     }
     y->left = x;
@@ -163,19 +144,19 @@ void RBTree<T>::leftRotate(RBNode<T> *x) {
  * Добавляет в дерево узел со значением val
  * @param val  Значение, которое хотим добавить
  */
-template<typename T>
-void RBTree<T>::add(T val) {
-    RBNode<T> * z = new RBNode<T>(val, 1, nullNode, nullNode, nullNode);
-    RBNode<T> * y = nullNode;
-    RBNode<T> * x = this->root;
+template<typename T1, typename T2>
+void RBTree<T1, T2>::add(T1 val, T2 val_2) {
+    RBNode<T1, T2> *z = new RBNode<T1, T2>(val, val_2, 1, nullNode, nullNode, nullNode);
+    RBNode<T1, T2> *y = nullNode;
+    RBNode<T1, T2> *x = this->root;
     while (x != nullNode) {
         y = x;
         if (z->val < x->val) {
             x = x->left;
         } else if (z->val > x->val) {
             x = x->right;
-        } else {
-//            x->count += 1;  Убрал увеличение счётчика, чтобы узлы удалялись с первого раза
+        } else {  // Если дубликат
+            x->add_to_chain(val_2);
             return;
         }
     }
@@ -191,24 +172,21 @@ void RBTree<T>::add(T val) {
 }
 
 
-
-
 /**
  * Балансирует дерево после добавления узла
  * @param node  Узел, вокруг которого балансируем
  */
-template<typename T>
-void RBTree<T>::balanceAdd(RBNode<T> *z) {
+template<typename T1, typename T2>
+void RBTree<T1, T2>::balanceAdd(RBNode<T1, T2> *z) {
     while (z->parent->color == 1) {
         if (z->parent == z->parent->parent->left) {
-            RBNode<T> *y = z->parent->parent->right;
+            RBNode<T1, T2> *y = z->parent->parent->right;
             if (y->color == 1) {
                 z->parent->color = 0;
                 y->color = 0;
                 z->parent->parent->color = 1;
                 z = z->parent->parent;
-            }
-            else {
+            } else {
                 if (z == z->parent->right) {
                     z = z->parent;
                     leftRotate(z);
@@ -217,16 +195,14 @@ void RBTree<T>::balanceAdd(RBNode<T> *z) {
                 z->parent->parent->color = 1;
                 rightRotate(z->parent->parent);
             }
-        }
-        else {
-            RBNode<T> *y = z->parent->parent->left;
+        } else {
+            RBNode<T1, T2> *y = z->parent->parent->left;
             if (y->color == 1) {
                 z->parent->color = 0;
                 y->color = 0;
                 z->parent->parent->color = 1;
                 z = z->parent->parent;
-            }
-            else {
+            } else {
                 if (z == z->parent->left) {
                     z = z->parent;
                     rightRotate(z);
@@ -246,9 +222,9 @@ void RBTree<T>::balanceAdd(RBNode<T> *z) {
  * @param val  Значение, которое ищем
  * @return  Указатель на узел, если такой имеется, и null-узел, если значения val в дереве нет
  */
-template<typename T>
-RBNode<T> *RBTree<T>::find(T val) const {
-    RBNode<T> *curr = this->root;
+template<typename T1, typename T2>
+RBNode<T1, T2> *RBTree<T1, T2>::find(T1 val) const {
+    RBNode<T1, T2> *curr = this->root;
     while (val != curr->val and !curr->isNull()) {
         if (val < curr->val) {
             curr = curr->left;
@@ -265,9 +241,9 @@ RBNode<T> *RBTree<T>::find(T val) const {
  * @param node  Узел, у которого ищем максимальный слева
  * @return  Указатель на максимальный слева узел
  */
-template<typename T>
-RBNode<T> *RBTree<T>::getMaxLeft(RBNode<T> *node) const {
-    RBNode<T> *curr = node->left;
+template<typename T1, typename T2>
+RBNode<T1, T2> *RBTree<T1, T2>::getMaxLeft(RBNode<T1, T2> *node) const {
+    RBNode<T1, T2> *curr = node->left;
     while (curr->right != nullNode) {
         curr = curr->right;
     }
@@ -280,9 +256,9 @@ RBNode<T> *RBTree<T>::getMaxLeft(RBNode<T> *node) const {
  * @param node  Узел, у которого ищем минимальный справа
  * @return  Указатель на минимальный справа узел
  */
-template<typename T>
-RBNode<T> *RBTree<T>::getMinRight(RBNode<T> *node) const {
-    RBNode<T> *curr = node->right;
+template<typename T1, typename T2>
+RBNode<T1, T2> *RBTree<T1, T2>::getMinRight(RBNode<T1, T2> *node) const {
+    RBNode<T1, T2> *curr = node->right;
     while (curr->left != nullNode) {
         curr = curr->left;
     }
@@ -295,8 +271,8 @@ RBNode<T> *RBTree<T>::getMinRight(RBNode<T> *node) const {
  * @param u  Узел, который заменяем
  * @param v  Узел, на который заменяем
  */
-template<typename T>
-void RBTree<T>::transplant(RBNode<T> *u, RBNode<T> *v) {
+template<typename T1, typename T2>
+void RBTree<T1, T2>::transplant(RBNode<T1, T2> *u, RBNode<T1, T2> *v) {
     if (u->isRoot()) {
         this->root = v;
     } else if (u == u->parent->left) {
@@ -313,24 +289,23 @@ void RBTree<T>::transplant(RBNode<T> *u, RBNode<T> *v) {
  * Если узлов с таким значением в дереве несколько, то уменьшает счётчик таких узлов
  * @param value  Значение, которое удаляем
  */
-template<typename T>
-void RBTree<T>::remove(T value) {
-    RBNode<T> *z = this->find(value);
-    if (z->isNull()) {  // Если такого значения нет в дереве
-        std::cout << "Not found" << std::endl;
+template<typename T1, typename T2>
+void RBTree<T1, T2>::remove(T1 value, T2 val_2) {
+    RBNode<T1, T2> *z = this->find(value);
+    if (z->isNull() || !z->chain.has(val_2)) {  // Если такого значения нет в дереве
+        throw runtime_error("Error: removing non-existing value from tree");
+    }
+    if (z->chain.size() > 1) {  // Если у узла есть дубликаты
+        z->chain.remove(val_2);
         return;
     }
-    if (z->count > 1) {  // Если у узла есть дубликаты
-        z->count -= 1;
-        return;
-    }
-    if (z->isRoot()  && z->left->isNull() && z->right->isNull()) {
+    if (z->isRoot() && z->left->isNull() && z->right->isNull()) {
         this->root = nullNode;
         return;
     }
 
-    RBNode<T> *y = z;
-    RBNode<T> *x;
+    RBNode<T1, T2> *y = z;
+    RBNode<T1, T2> *x;
     int yOriginalColor = y->color;
     if (z->left->isNull()) {
         x = z->right;
@@ -364,11 +339,11 @@ void RBTree<T>::remove(T value) {
  * Балансирует дерево после удаления узла
  * @param x  Узел, начиная с которого балансируем дерево
  */
-template<typename T>
-void RBTree<T>::balanceRemove(RBNode<T> *x) {
+template<typename T1, typename T2>
+void RBTree<T1, T2>::balanceRemove(RBNode<T1, T2> *x) {
     while (!x->isRoot() and x->color == 0) {
         if (x == x->parent->left) {  // Узел слева
-            RBNode<T> *w = x->parent->right;
+            RBNode<T1, T2> *w = x->parent->right;
             if (w->color == 1) {
                 w->color = 0;
                 x->parent->color = 1;
@@ -393,7 +368,7 @@ void RBTree<T>::balanceRemove(RBNode<T> *x) {
                 x = this->root;
             }
         } else {  // Узел справа
-            RBNode<T> *w = x->parent->left;
+            RBNode<T1, T2> *w = x->parent->left;
             if (w->color == 1) {
                 w->color = 0;
                 x->parent->color = 1;
@@ -426,8 +401,8 @@ void RBTree<T>::balanceRemove(RBNode<T> *x) {
 /**
  * Очищает дерево
  */
-template<typename T>
-void RBTree<T>::clear() {
+template<typename T1, typename T2>
+void RBTree<T1, T2>::clear() {
     while (!this->isEmpty()) {
         this->remove(this->root->val);
     }
@@ -435,148 +410,42 @@ void RBTree<T>::clear() {
 
 
 /**
- * Находит максимальное значение в дереве
- * @return  Максимальное значение дерева
- */
-template<typename T>
-T RBTree<T>::max() const {
-    RBNode<T> *curr = this->root;
-    while (!curr->right->isNull()) {
-        curr = curr->right;
-    }
-    return curr->val;
-}
-
-
-/**
- * Находит минимальное значение в дереве
- * @return  Минимальное значение дерева
- */
-template<typename T>
-T RBTree<T>::min() const {
-    RBNode<T> *curr = this->root;
-    while (!curr->left->isNull()) {
-        curr = curr->left;
-    }
-    return curr->val;
-}
-
-
-/**
- * Прямой обход (корень, левый, правый)
- */
-template<typename T>
-void RBTree<T>::preOrderTraversal(RBNode<T> *curr) {
-    if (curr == nullNode) {
-        return;
-    }
-    std::cout << curr->val << " ";
-    preOrderTraversal(curr->left);
-    preOrderTraversal(curr->right);
-}
-
-template<typename T>
-void RBTree<T>::preOrderTraversal() {
-    this->preOrderTraversal(this->root);
-    std::cout << std::endl;
-}
-
-
-/**
- * Обратный обход (левый, правый, корень)
- */
-template<typename T>
-void RBTree<T>::postOrderTraversal(RBNode<T> *curr) {
-    if (curr == nullNode) {
-        return;
-    }
-    postOrderTraversal(curr->left);
-    postOrderTraversal(curr->right);
-    std::cout << curr->val << " ";
-}
-
-template<typename T>
-void RBTree<T>::postOrderTraversal() {
-    this->postOrderTraversal(this->root);
-    std::cout << std::endl;
-}
-
-
-/**
  * Симметричный обход (левый, корень, правый)
  */
-template<typename T>
-void RBTree<T>::inOrderTraversal(RBNode<T> *curr) {
+template<typename T1, typename T2>
+void RBTree<T1, T2>::inOrderTraversal(RBNode<T1, T2> *curr) {
     if (curr == nullNode) {
         return;
     }
     inOrderTraversal(curr->left);
-    std::cout << curr->val << " ";
+    cout << curr->val << " ";
     inOrderTraversal(curr->right);
 }
 
-template<typename T>
-void RBTree<T>::inOrderTraversal() {
+template<typename T1, typename T2>
+void RBTree<T1, T2>::inOrderTraversal() {
     this->inOrderTraversal(this->root);
-    std::cout << std::endl;
-}
-
-
-/**
- * Обратный симметричный обход (правый, корень, левый)
- */
-template<typename T>
-void RBTree<T>::reverseInOrderTraversal(RBNode<T> *curr) {
-    if (curr == nullNode) {
-        return;
-    }
-    reverseInOrderTraversal(curr->right);
-    std::cout << curr->val << " ";
-    reverseInOrderTraversal(curr->left);
-}
-
-template<typename T>
-void RBTree<T>::reverseInOrderTraversal() {
-    this->reverseInOrderTraversal(this->root);
-    std::cout << std::endl;
-}
-
-template<typename T>
-void RBTree<T>::print(RBNode<T> *q, long n) {
-    long i;
-    if (!q->isNull())
-    {
-        print(q->right, n+5);
-        for (i = 0; i < n; i++)
-//            printf(" ");
-            std::cout << " ";
-        char color = 'R';
-        if (q->color == 0) {
-            color = 'B';
-        }
-//        printf("%d %c\n", q->val, color);
-        std::cout << q->val << " " << color << "\n";
-        print(q->left, n+5);
-    }
+    cout << endl;
 }
 
 /**
- * Возвращает true, если в дереве есть значение val
+ * Возвращает true, если в дереве есть значение val, chain
  * @param val Значение, которое ищем
  * @return Есть ли значение в дереве
  */
-template<typename T>
-bool RBTree<T>::has(T val) const {
-    return !this->find(val)->isNull();
+template<typename T1, typename T2>
+bool RBTree<T1, T2>::has(T1 val, T2 val_2) const {
+    auto found_node = this->find(val);
+    return (!found_node->isNull() && found_node->chain.has(val_2));
 }
 
 /**
  * Возвращает вектор значений данного дерева
  * @return Вектор значений дерева
  */
-template<typename T>
-std::vector<T> RBTree<T>::to_vector() {
-    std::vector<T> result = {};
+template<typename T1, typename T2>
+vector<pair<T1, List<T2>>> RBTree<T1, T2>::to_vector() {
+    vector<pair<T1, List<T2>>> result = {};
     this->to_vector_traversal(this->root, result);
     return result;
 }
@@ -586,12 +455,56 @@ std::vector<T> RBTree<T>::to_vector() {
  * @param curr Текущий узел обхода
  * @param vect Вектор, куда складываются значения пройденных узлов
  */
-template<typename T>
-void RBTree<T>::to_vector_traversal(RBNode<T> *curr, std::vector<T>& vect) {
+template<typename T1, typename T2>
+void RBTree<T1, T2>::to_vector_traversal(RBNode<T1, T2> *curr, vector<pair<T1, List<T2>>> &vect) {
     if (curr == nullNode) {
         return;
     }
     to_vector_traversal(curr->left, vect);
-    vect.push_back(curr->val);
+    vect.push_back({curr->val, curr->chain});
     to_vector_traversal(curr->right, vect);
+}
+
+template<typename T1, typename T2>
+string RBTree<T1, T2>::to_string(string (*val1_to_str)(T1), string (*val2_to_str)(T2)) {
+    string result = "";
+    this->_to_string(result, this->root, 0, val1_to_str, val2_to_str);
+    return result;
+}
+
+template<typename T1, typename T2>
+void RBTree<T1, T2>::_to_string(string &result, RBNode<T1, T2> *curr, int indent, string (*val1_to_str)(T1),
+                                string (*val2_to_str)(T2)) {
+    if (!curr->isNull()) {
+        _to_string(result, curr->right, indent + 5, val1_to_str, val2_to_str);
+        for (int i = 0; i < indent; i++)
+            result += " ";
+        string color = "Red";
+        if (curr->color == 0) {
+            color = "Black";
+        }
+        result += color + " " +
+                  val1_to_str(curr->val) + ": " +
+                  curr->chain.to_string(val2_to_str);
+        result += "\n";
+        _to_string(result, curr->left, indent + 5, val1_to_str, val2_to_str);
+    }
+}
+
+template<typename T1, typename T2>
+vector<RBNode<T1, T2>> RBTree<T1, T2>::get_nodes_lower(T1 value) {
+    vector<RBNode<T1, T2>> result = {};
+
+}
+
+template<typename T1, typename T2>
+void RBTree<T1, T2>::_get_nodes_lower(T1 target, RBNode<T1, T2> *curr, vector<RBNode<T1, T2>> &result) {
+    if (curr == nullNode) return;
+    if (curr->val > target) {  // Если узел не подходит под условие
+        _get_nodes_lower(target, curr->left, result);  // Смотрим на узел поменьше
+    } else {
+        _get_nodes_lower(target, curr->left, result);
+        result.push_back(curr);
+        _get_nodes_lower(target, curr->right, result);
+    }
 }

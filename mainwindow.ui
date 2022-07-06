@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>992</width>
     <height>600</height>
    </rect>
   </property>
@@ -21,7 +21,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_files">
        <property name="sizePolicy">
@@ -130,6 +130,13 @@
                    </layout>
                   </widget>
                  </item>
+                 <item>
+                  <widget class="QLabel" name="label_import_planets_default_path">
+                   <property name="text">
+                    <string>Путь по умолчанию:</string>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </widget>
               </item>
@@ -193,6 +200,13 @@
                    </layout>
                   </widget>
                  </item>
+                 <item>
+                  <widget class="QLabel" name="label_import_attrs_default_path">
+                   <property name="text">
+                    <string>Путь по умолчанию:</string>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </widget>
               </item>
@@ -205,6 +219,18 @@
                 </property>
                 <property name="text">
                  <string>Загрузить!</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="button_import_default_databases">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Загрузить по умолчанию!</string>
                 </property>
                </widget>
               </item>
@@ -319,6 +345,13 @@
                    </layout>
                   </widget>
                  </item>
+                 <item>
+                  <widget class="QLabel" name="label_export_planets_default_path">
+                   <property name="text">
+                    <string>Путь по умолчанию:</string>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </widget>
               </item>
@@ -382,6 +415,13 @@
                    </layout>
                   </widget>
                  </item>
+                 <item>
+                  <widget class="QLabel" name="label_export_attrs_default_path">
+                   <property name="text">
+                    <string>Путь по умолчанию:</string>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </widget>
               </item>
@@ -394,6 +434,18 @@
                 </property>
                 <property name="text">
                  <string>Выгрузить!</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="button_export_default_databases">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Выгрузить по умолчанию!</string>
                 </property>
                </widget>
               </item>
@@ -423,59 +475,204 @@
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="frame_16">
+         <widget class="QFrame" name="frame_4">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_17">
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
            <item>
-            <widget class="QTreeWidget" name="treeWidget_planets">
-             <attribute name="headerDefaultSectionSize">
-              <number>200</number>
-             </attribute>
-             <column>
-              <property name="text">
-               <string>Название</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Расстояние</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Цена проживания</string>
-              </property>
-             </column>
-            </widget>
-           </item>
-           <item>
-            <widget class="QFrame" name="frame_2">
+            <widget class="QFrame" name="frame_16">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <layout class="QVBoxLayout" name="verticalLayout_17">
               <item>
-               <widget class="QPushButton" name="button_add_planet">
-                <property name="text">
-                 <string>Добавить...</string>
+               <widget class="QTreeWidget" name="treeWidget_planets">
+                <property name="sortingEnabled">
+                 <bool>true</bool>
                 </property>
+                <attribute name="headerDefaultSectionSize">
+                 <number>200</number>
+                </attribute>
+                <column>
+                 <property name="text">
+                  <string>Название</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Расстояние</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Цена проживания</string>
+                 </property>
+                </column>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="button_rem_planet">
-                <property name="enabled">
-                 <bool>false</bool>
+               <widget class="QFrame" name="frame_2">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
                 </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <item>
+                  <widget class="QPushButton" name="button_add_planet">
+                   <property name="text">
+                    <string>Добавить...</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="button_rem_planet">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Удалить</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="frame_27">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <item>
+               <widget class="QFrame" name="frame_28">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_23">
+                 <item>
+                  <widget class="QLabel" name="label_15">
+                   <property name="text">
+                    <string>Название планеты</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_planets_search_planet"/>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton_planets_search_planet">
+                   <property name="text">
+                    <string>Найти</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="frame_31">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_25">
+                 <item>
+                  <widget class="QLabel" name="label_17">
+                   <property name="text">
+                    <string>Макс. расстояние</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_planets_search_max_distance"/>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton_planets_search_max_distance">
+                   <property name="text">
+                    <string>Найти</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="frame_30">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_24">
+                 <item>
+                  <widget class="QLabel" name="label_16">
+                   <property name="text">
+                    <string>Макс. цена</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_planets_search_max_price"/>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton_planets_search_max_price">
+                   <property name="text">
+                    <string>Найти</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_planets_search_clear">
                 <property name="text">
-                 <string>Удалить</string>
+                 <string>Очистить поиск</string>
                 </property>
                </widget>
               </item>
@@ -505,49 +702,201 @@
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="frame_15">
+         <widget class="QFrame" name="frame_29">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_16">
+          <layout class="QHBoxLayout" name="horizontalLayout_14">
            <item>
-            <widget class="QTreeWidget" name="treeWidget_attrs">
-             <attribute name="headerVisible">
-              <bool>false</bool>
-             </attribute>
-             <column>
-              <property name="text">
-               <string>Запись</string>
-              </property>
-             </column>
-            </widget>
-           </item>
-           <item>
-            <widget class="QFrame" name="frame_6">
+            <widget class="QFrame" name="frame_15">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <layout class="QVBoxLayout" name="verticalLayout_16">
               <item>
-               <widget class="QPushButton" name="button_add_attr">
-                <property name="text">
-                 <string>Добавить...</string>
-                </property>
+               <widget class="QTreeWidget" name="treeWidget_attrs">
+                <attribute name="headerVisible">
+                 <bool>false</bool>
+                </attribute>
+                <column>
+                 <property name="text">
+                  <string>Название</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Климат</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Признак</string>
+                 </property>
+                </column>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="button_rem_attr">
-                <property name="enabled">
-                 <bool>false</bool>
+               <widget class="QFrame" name="frame_6">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
                 </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <item>
+                  <widget class="QPushButton" name="button_add_attr">
+                   <property name="text">
+                    <string>Добавить...</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="button_rem_attr">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Удалить</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="frame_32">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_26">
+              <item>
+               <widget class="QFrame" name="frame_33">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_27">
+                 <item>
+                  <widget class="QLabel" name="label_18">
+                   <property name="text">
+                    <string>Название планеты</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_attrs_search_planet"/>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton_attrs_search_planet">
+                   <property name="text">
+                    <string>Найти</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="frame_34">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_28">
+                 <item>
+                  <widget class="QLabel" name="label_19">
+                   <property name="text">
+                    <string>Климат</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_attrs_search_climate"/>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton_attrs_search_climate">
+                   <property name="text">
+                    <string>Найти</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="frame_35">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_29">
+                 <item>
+                  <widget class="QLabel" name="label_20">
+                   <property name="text">
+                    <string>Признак</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_attrs_search_attribute"/>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton_attrs_search_attribute">
+                   <property name="text">
+                    <string>Найти</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_attrs_search_clear">
                 <property name="text">
-                 <string>Удалить</string>
+                 <string>Очистить поиск</string>
                 </property>
                </widget>
               </item>
@@ -758,9 +1107,23 @@
             </widget>
            </item>
            <item>
+            <widget class="QLabel" name="label_search_export_default_path">
+             <property name="text">
+              <string>Путь по умолчанию:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="button_export_search">
              <property name="text">
               <string>Экспортировать в файл!</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="button_export_default_search">
+             <property name="text">
+              <string>Экспортировать в файл по умолчанию!</string>
              </property>
             </widget>
            </item>
@@ -817,51 +1180,50 @@ p, li { white-space: pre-wrap; }
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_12">
-              <item>
-               <widget class="QPushButton" name="pushButton">
-                <property name="text">
-                 <string>Вывести &quot;Планеты&quot;</string>
-                </property>
-               </widget>
-              </item>
-              <item>
+             <layout class="QGridLayout" name="gridLayout">
+              <item row="0" column="1">
                <widget class="QPushButton" name="pushButton_2">
                 <property name="text">
                  <string>Вывести &quot;Признаки планет&quot;</string>
                 </property>
                </widget>
               </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QFrame" name="frame_12">
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_11">
-              <item>
-               <widget class="QLineEdit" name="lineEdit_export_log_path"/>
-              </item>
-              <item>
-               <widget class="QPushButton" name="button_export_log_path">
+              <item row="1" column="0">
+               <widget class="QPushButton" name="pushButton_9">
                 <property name="text">
-                 <string>Путь...</string>
+                 <string>Вывести</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QPushButton" name="pushButton_10">
+                <property name="text">
+                 <string>Вывести</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QPushButton" name="pushButton">
+                <property name="text">
+                 <string>Вывести &quot;Планеты&quot;</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QPushButton" name="pushButton_3">
+                <property name="text">
+                 <string>Вывести</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QPushButton" name="pushButton_4">
+                <property name="text">
+                 <string>Вывести</string>
                 </property>
                </widget>
               </item>
              </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="button_export_log">
-             <property name="text">
-              <string>Экспортировать в файл!</string>
-             </property>
             </widget>
            </item>
           </layout>
@@ -927,7 +1289,10 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_errors_page">
    <property name="text">
-    <string>Ошибки</string>
+    <string>Отладка</string>
+   </property>
+   <property name="toolTip">
+    <string>Отладка</string>
    </property>
   </action>
  </widget>

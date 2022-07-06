@@ -49,10 +49,10 @@ vector<PlanetFullInfo> Database::search(double distance, int price, const string
     vector<PlanetFullInfo> result = {};
 
     // Находим список планет, подходящих по климату и признаку
-    List<string> found_planets = this->attributes.find_planets(climate, attribute);
+    vector<string> found_planets = this->attributes.find_planets(climate, attribute);
 
     // Проверяем, подходят ли эти планеты по расстоянию и цене
-    for (string &planet_name: found_planets.to_vector()) {
+    for (string &planet_name: found_planets) {
         auto planet_info = this->planets.get(planet_name);
         if (planet_info.distance <= distance &&
             planet_info.price <= price) {  // Если планета подходит по всем параметрам
@@ -69,7 +69,7 @@ vector<PlanetFullInfo> Database::search(double distance, int price, const string
 }
 
 string Database::planets_to_string() {
-    return this->planets.to_string();
+    return this->planets.to_string_HT();
 }
 
 string Database::attributes_to_string() {
@@ -79,7 +79,7 @@ string Database::attributes_to_string() {
 string Database::search_to_string(double distance, int price, const string &climate, const string &attribute) {
     vector<PlanetFullInfo> search_result = this->search(distance, price, climate, attribute);
     string result = "";
-    for (PlanetFullInfo info: search_result) {
+    for (PlanetFullInfo& info: search_result) {
         result += info.planet_name + ":\n";
         result += "\tРасстояние: " + std::to_string(info.distance) + "\n";
         result += "\tЦена: " + std::to_string(info.price) + "\n";
