@@ -1181,45 +1181,65 @@ p, li { white-space: pre-wrap; }
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QGridLayout" name="gridLayout">
-              <item row="0" column="1">
-               <widget class="QPushButton" name="pushButton_2">
+              <item row="2" column="1">
+               <widget class="QPushButton" name="pushButton_log_attrs_climate_tree">
                 <property name="text">
-                 <string>Вывести &quot;Признаки планет&quot;</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QPushButton" name="pushButton_9">
-                <property name="text">
-                 <string>Вывести</string>
+                 <string>Вывести Признаки.Дерево_климатов</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QPushButton" name="pushButton_10">
+               <widget class="QPushButton" name="pushButton_log_attrs_planet_tree">
                 <property name="text">
-                 <string>Вывести</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QPushButton" name="pushButton">
-                <property name="text">
-                 <string>Вывести &quot;Планеты&quot;</string>
+                 <string>Вывести Признаки.Дерево_планет</string>
                 </property>
                </widget>
               </item>
               <item row="2" column="0">
-               <widget class="QPushButton" name="pushButton_3">
+               <widget class="QPushButton" name="pushButton_log_planets_dist_tree">
                 <property name="text">
-                 <string>Вывести</string>
+                 <string>Вывести Планеты.Дерево_по_расстоянию</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
-               <widget class="QPushButton" name="pushButton_4">
+              <item row="3" column="1">
+               <widget class="QPushButton" name="pushButton_log_attrs_attr_tree">
                 <property name="text">
-                 <string>Вывести</string>
+                 <string>Вывести Признаки.Дерево_признаков</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QPushButton" name="pushButton_log_planets_table">
+                <property name="text">
+                 <string>Вывести Планеты.ХТ_по_названию</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QPushButton" name="pushButton_log_planets_price_tree">
+                <property name="text">
+                 <string>Вывести Планеты.Дерево_по_цене</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_21">
+                <property name="text">
+                 <string>Планеты</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="label_22">
+                <property name="text">
+                 <string>Признаки</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
                 </property>
                </widget>
               </item>

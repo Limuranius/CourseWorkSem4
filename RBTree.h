@@ -8,14 +8,6 @@
 using namespace std;
 
 template<typename T1, typename T2>
-struct VisualNodeInfo {
-    T1 val;
-    List<T2> chain;
-    string color;  // R - красный, B - чёрный
-    string indent;  // Отступ в пробелах
-};
-
-template<typename T1, typename T2>
 class RBTree {
 public:
     RBNode<T1, T2> *root;
@@ -36,11 +28,15 @@ public:
 
     bool has(T1 val, T2 val_2) const;
 
+    bool has(T1 val) const;
+
     vector<pair<T1, List<T2>>> to_vector();
 
     string to_string(string (*val1_to_str)(T1), string (*val2_to_str)(T2));
 
-    vector<RBNode<T1, T2>> get_nodes_lower(T1 value);
+    vector<RBNode<T1, T2> *> get_nodes_lower(T1 value);
+
+    vector<T2> get_sec_values_lower(T1 value);
 
 private:
     RBNode<T1, T2> *nullNode;
@@ -61,12 +57,14 @@ private:
 
     void inOrderTraversal(RBNode<T1, T2> *curr);
 
-    void to_vector_traversal(RBNode<T1, T2> *curr, vector<pair<T1, List<T2>>> &vect);
+    void _to_vector(RBNode<T1, T2> *curr, vector<pair<T1, List<T2>>> &vect);
 
     void
     _to_string(string &result, RBNode<T1, T2> *curr, int indent, string (*val1_to_str)(T1), string (*val2_to_str)(T2));
 
-    void _get_nodes_lower(T1 target, RBNode<T1, T2> *curr, vector<RBNode<T1, T2>> &result);
+    void _get_nodes_lower(T1 target, RBNode<T1, T2> *curr, vector<RBNode<T1, T2> *> &result);
+
+    void _clear(RBNode<T1, T2> *curr);
 };
 
 
@@ -403,9 +401,8 @@ void RBTree<T1, T2>::balanceRemove(RBNode<T1, T2> *x) {
  */
 template<typename T1, typename T2>
 void RBTree<T1, T2>::clear() {
-    while (!this->isEmpty()) {
-        this->remove(this->root->val);
-    }
+    this->_clear(this->root);
+    this->root = nullNode;
 }
 
 
@@ -429,14 +426,21 @@ void RBTree<T1, T2>::inOrderTraversal() {
 }
 
 /**
- * Возвращает true, если в дереве есть значение val, chain
+ * Возвращает true, если в дереве есть значение val, val_2
  * @param val Значение, которое ищем
+ * @param val_2 Второе значение, которое ищем
  * @return Есть ли значение в дереве
  */
 template<typename T1, typename T2>
 bool RBTree<T1, T2>::has(T1 val, T2 val_2) const {
     auto found_node = this->find(val);
     return (!found_node->isNull() && found_node->chain.has(val_2));
+}
+
+template<typename T1, typename T2>
+bool RBTree<T1, T2>::has(T1 val) const {
+    auto found_node = this->find(val);
+    return !found_node->isNull();
 }
 
 /**
@@ -446,7 +450,7 @@ bool RBTree<T1, T2>::has(T1 val, T2 val_2) const {
 template<typename T1, typename T2>
 vector<pair<T1, List<T2>>> RBTree<T1, T2>::to_vector() {
     vector<pair<T1, List<T2>>> result = {};
-    this->to_vector_traversal(this->root, result);
+    this->_to_vector(this->root, result);
     return result;
 }
 
@@ -456,15 +460,21 @@ vector<pair<T1, List<T2>>> RBTree<T1, T2>::to_vector() {
  * @param vect Вектор, куда складываются значения пройденных узлов
  */
 template<typename T1, typename T2>
-void RBTree<T1, T2>::to_vector_traversal(RBNode<T1, T2> *curr, vector<pair<T1, List<T2>>> &vect) {
-    if (curr == nullNode) {
+void RBTree<T1, T2>::_to_vector(RBNode<T1, T2> *curr, vector<pair<T1, List<T2>>> &vect) {
+    if (curr->isNull()) {
         return;
     }
-    to_vector_traversal(curr->left, vect);
+    _to_vector(curr->left, vect);
     vect.push_back({curr->val, curr->chain});
-    to_vector_traversal(curr->right, vect);
+    _to_vector(curr->right, vect);
 }
 
+/**
+ * Переводит дерево в строку
+ * @param val1_to_str Функция, переводящая первое значение T1 в строку
+ * @param val2_to_str Функция, переводящая второе значение T2 в строку
+ * @return Дерево в виде строки
+ */
 template<typename T1, typename T2>
 string RBTree<T1, T2>::to_string(string (*val1_to_str)(T1), string (*val2_to_str)(T2)) {
     string result = "";
@@ -472,6 +482,14 @@ string RBTree<T1, T2>::to_string(string (*val1_to_str)(T1), string (*val2_to_str
     return result;
 }
 
+/**
+ * Рекурсивно обходит дерево и добавляет значение узла curr к строке result с отступом indent
+ * @param result Итоговая строка, к которой добавится данный узел curr
+ * @param curr Текущий рассматриваемый узел
+ * @param indent Отступ от начала
+ * @param val1_to_str Функция, переводящая первое значение T1 в строку
+ * @param val2_to_str Функция, переводящая второе значение T2 в строку
+ */
 template<typename T1, typename T2>
 void RBTree<T1, T2>::_to_string(string &result, RBNode<T1, T2> *curr, int indent, string (*val1_to_str)(T1),
                                 string (*val2_to_str)(T2)) {
@@ -491,15 +509,27 @@ void RBTree<T1, T2>::_to_string(string &result, RBNode<T1, T2> *curr, int indent
     }
 }
 
+/**
+ * Возвращает все узлы, у которых ключ меньше value
+ * @param value Значение, по которому ищем узлы
+ * @return Вектор всех подходящих узлов
+ */
 template<typename T1, typename T2>
-vector<RBNode<T1, T2>> RBTree<T1, T2>::get_nodes_lower(T1 value) {
-    vector<RBNode<T1, T2>> result = {};
-
+vector<RBNode<T1, T2> *> RBTree<T1, T2>::get_nodes_lower(T1 value) {
+    vector<RBNode<T1, T2> *> result = {};
+    this->_get_nodes_lower(value, this->root, result);
+    return result;
 }
 
+/**
+ * Рекурсивно обходит дерево и все узлы с ключом меньше target сохраняет в result
+ * @param target Значение, по которому ищем узлы
+ * @param curr Текущий рассматриваемый узел
+ * @param result Итоговый вектор, куда сохранятся подходящие узлы
+ */
 template<typename T1, typename T2>
-void RBTree<T1, T2>::_get_nodes_lower(T1 target, RBNode<T1, T2> *curr, vector<RBNode<T1, T2>> &result) {
-    if (curr == nullNode) return;
+void RBTree<T1, T2>::_get_nodes_lower(T1 target, RBNode<T1, T2> *curr, vector<RBNode<T1, T2> *> &result) {
+    if (curr->isNull()) return;
     if (curr->val > target) {  // Если узел не подходит под условие
         _get_nodes_lower(target, curr->left, result);  // Смотрим на узел поменьше
     } else {
@@ -508,3 +538,33 @@ void RBTree<T1, T2>::_get_nodes_lower(T1 target, RBNode<T1, T2> *curr, vector<RB
         _get_nodes_lower(target, curr->right, result);
     }
 }
+
+/**
+ * Возвращает все вторые значения, у которых ключ меньше value
+ * @param value Значение, по которому ищем узлы
+ * @return Вектор всех подходящих вторых значений
+ */
+template<typename T1, typename T2>
+vector<T2> RBTree<T1, T2>::get_sec_values_lower(T1 value) {
+    vector<T2> result = {};
+    for (RBNode<T1, T2> *node: this->get_nodes_lower(value)) {
+        for (T2 chain_item: node->chain.to_vector()) {
+            result.push_back(chain_item);
+        }
+    }
+    return result;
+}
+
+/**
+ * Рекурсивно проходит по всем узлам и удаляет их
+ * @param curr Текущий узел
+ */
+template<typename T1, typename T2>
+void RBTree<T1, T2>::_clear(RBNode<T1, T2> *curr) {
+    if (curr->isNull()) return;
+    _clear(curr->left);
+    _clear(curr->right);
+    delete curr;
+}
+
+

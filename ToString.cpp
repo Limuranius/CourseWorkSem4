@@ -16,3 +16,11 @@ std::string attribute_to_string(Attribute attribute) {
 std::string str_to_str(std::string str) {
     return str;
 }
+
+std::string int_to_str(int num) {
+    return std::to_string(num);
+}
+
+std::string double_to_str(double num) {
+    return std::to_string(num);
+}
