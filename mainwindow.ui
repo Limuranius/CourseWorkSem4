@@ -721,6 +721,12 @@
              <layout class="QVBoxLayout" name="verticalLayout_16">
               <item>
                <widget class="QTreeWidget" name="treeWidget_attrs">
+                <property name="alternatingRowColors">
+                 <bool>false</bool>
+                </property>
+                <property name="headerHidden">
+                 <bool>false</bool>
+                </property>
                 <attribute name="headerVisible">
                  <bool>false</bool>
                 </attribute>

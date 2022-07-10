@@ -186,7 +186,7 @@ void MainWindow::on_button_import_databases_clicked()
         this->database.read_planets_file(planets_import_path);
         this->database.read_attributes_file(attributes_import_path);
         this->update();
-        this->success_message("Загрузка прошла успешно");
+        this->success_message("Загрузка файлов прошла успешно");
     } else {
         this->error_message("Неверный файл");
     }
@@ -198,7 +198,7 @@ void MainWindow::on_button_import_default_databases_clicked()
         this->database.read_planets_file(this->default_import_planets_path);
         this->database.read_attributes_file(this->default_import_attrs_path);
         this->update();
-        this->success_message("Загрузка прошла успешно");
+        this->success_message("Загрузка файлов прошла успешно");
     } else {
         this->error_message("Неверный файл");
     }
